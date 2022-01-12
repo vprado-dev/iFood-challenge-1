@@ -14,60 +14,27 @@ components:
       required:
         - message
 
-    PlayerPostBody:
+    WeatherPostBody:
       type: object
       properties:
-        nickName:
-          type: string
-          example: crazyPotatoFighter123
-        age:
+        lat:
           type: number
-          example: 18
-        level:
+          example: -22.9064
+        lon:
           type: number
-          example: 20
-        classType:
-          type: string
-          enum: ["warrior", "wizard", "bard", "summoner"]
-          example: summoner
-        description:
-          type: string
-          example: Can summon creatures to fight for him
-    PlayersPatchOneBody:
+          example: -47.0616
+      required:
+        - lat
+        - lon
+    WeatherPostResponse:
       type: object
       properties:
-        nickName:
+        cityName:
           type: string
-          example: crazyPotatoFighter123
-        age:
-          type: number
-          example: 18
-        level:
-          type: number
-          example: 20
-        classType:
+          example: "Campinas"
+        temperature:
           type: string
-          enum: ["warrior", "wizard", "bard", "summoner"]
-          example: summoner
-        description:
+          example: "30 degress"
+        songName:
           type: string
-          example: Can summon creatures to fight for him
-    Player:
-      type: object
-      properties:
-        nickName:
-          type: string
-          example: crazyPotatoFighter123
-        age:
-          type: number
-          example: 18
-        level:
-          type: number
-          example: 20
-        classType:
-          type: string
-          enum: ["warrior", "wizard", "bard", "summoner"]
-          example: summoner
-        description:
-          type: string
-          example: Can summon creatures to fight for him
+          example: "blinding lights"
