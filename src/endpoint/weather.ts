@@ -1,9 +1,88 @@
+import fetch from "node-fetch";
 import { endpoint } from "../functions/endpoint";
+import { HttpError } from "../utils/httpError";
+interface fetchOpenWeatherProps {
+  lat: number;
+  lon: number;
+}
+
+const fetchOpenWeather = async ({ lat, lon }: fetchOpenWeatherProps) => {
+  const openWeatherUrl = new URL(
+    "http://api.openweathermap.org/data/2.5/weather",
+  );
+
+  const searchParams = openWeatherUrl.searchParams;
+
+  searchParams.append("lat", `${lat}`);
+  searchParams.append("lon", `${lon}`);
+  searchParams.append("appid", process.env.OPEN_WEATHER_API_KEY);
+
+  const openWeatherResponse = await fetch(openWeatherUrl.toString(), {
+    method: "GET",
+  });
+
+  const openWeatherJson = await openWeatherResponse.json();
+
+  if (openWeatherResponse.status != 200) {
+    throw new HttpError(openWeatherResponse.status, openWeatherJson.message);
+  }
+
+  return openWeatherJson;
+};
+
+const fetchSpotify = async (musicGenre: string) => {
+  const spotifyUrl = new URL("https://api.spotify.com/v1/recommendations");
+
+  spotifyUrl.searchParams.append("seed_genres", musicGenre);
+  spotifyUrl.searchParams.append("limit", `${10}`);
+
+  const spotifyResponse = await fetch(spotifyUrl.toString(), {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.SPOTIFY_OAUTH_TOKEN}`,
+    },
+  });
+
+  const spotifyJson = await spotifyResponse.json();
+
+  if (spotifyResponse.status != 200) {
+    throw new HttpError(
+      spotifyResponse.status,
+      JSON.stringify(spotifyJson, null, 2),
+    );
+  }
+
+  return spotifyJson;
+};
 
 export const weatherPostOne = endpoint(async (req, res) => {
   const { lat, lon } = req.body;
 
-  console.log({ lat, lon });
+  const { main, name } = await fetchOpenWeather({ lat, lon });
 
-  res.status(501).end();
+  const celsiusTemp = Number((main.temp - 273).toFixed(2));
+
+  let musicGenre: string;
+
+  if (celsiusTemp > 30) {
+    musicGenre = "party";
+  } else if (celsiusTemp >= 15 && celsiusTemp <= 30) {
+    musicGenre = "pop";
+  } else if (celsiusTemp < 15 && celsiusTemp >= 10) {
+    musicGenre = "rock";
+  } else {
+    musicGenre = "classical";
+  }
+
+  const { tracks } = await fetchSpotify(musicGenre);
+
+  const tracksNames = tracks.map((track: any) => track.name);
+
+  res.status(200).json({
+    cityName: name,
+    temperature: `${celsiusTemp} degrees`,
+    tracks: tracksNames,
+  });
 });

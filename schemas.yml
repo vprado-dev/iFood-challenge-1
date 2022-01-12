@@ -34,7 +34,9 @@ components:
           example: "Campinas"
         temperature:
           type: string
-          example: "30 degress"
-        songName:
-          type: string
-          example: "blinding lights"
+          example: "30 degrees"
+        tracks:
+          type: array
+          items:
+            type: string
+            example: "blinding lights"
