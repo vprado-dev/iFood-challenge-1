@@ -20,4 +20,4 @@
 **Observations:**
 
 - The openWeather API Key is in [CHALLENGE.md](CHALLENGE.md)
-- You have to get a SPOTIFY OAuth token at [Get Recomendation](https://developer.spotify.com/console/get-recommendations/)
+- You have to get a Spotify OAuth Token at [Get Recomendation](https://developer.spotify.com/console/get-recommendations/)
