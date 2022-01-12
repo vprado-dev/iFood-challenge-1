@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { weatherPostOne } from "../endpoint/weather";
+import { weatherGetOne, weatherPostOne } from "../endpoint/weather";
 import { auth } from "../middlewares/auth";
-import { body } from "../utils/requestsValidations";
-import { weatherPostBody } from "../validations/weather";
+import { body, query } from "../utils/requestsValidations";
+import { weatherGetOneParams, weatherPostBody } from "../validations/weather";
 
 const router = Router();
 
@@ -12,10 +12,22 @@ const router = Router();
  * @security BearerAuth
  * @bodyContent {WeatherPostBody} application/json
  * @response 201
- * @responseContent {WeatherPostResponse} 201.application/json
+ * @responseContent {Weather} 201.application/json
  * @response default
  * @responseContent {Error} default.application/json
  */
 router.post("/weather", auth, body(weatherPostBody), weatherPostOne);
+
+/**
+ * GET /weather
+ * @tag Weather
+ * @security BearerAuth
+ * @response 200
+ * @queryParam {string} [cityName]
+ * @responseContent {Weather} 200.application/json
+ * @response default
+ * @responseContent {Error} default.application/json
+ */
+router.get("/weather", auth, query(weatherGetOneParams), weatherGetOne);
 
 export default router;

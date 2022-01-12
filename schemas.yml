@@ -26,7 +26,7 @@ components:
       required:
         - lat
         - lon
-    WeatherPostResponse:
+    Weather:
       type: object
       properties:
         cityName:
@@ -35,6 +35,9 @@ components:
         temperature:
           type: string
           example: "30 degrees"
+        genre:
+          type: string
+          example: "pop"
         tracks:
           type: array
           items:
