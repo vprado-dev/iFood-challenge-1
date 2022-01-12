@@ -16,3 +16,8 @@
   # Run
   yarn dev
 ```
+
+**Observations:**
+
+- The openWeather API Key is in [CHALLENGE.md](CHALLENGE.md)
+- You have to get a SPOTIFY OAuth token at [Get Recomendation](https://developer.spotify.com/console/get-recommendations/)
