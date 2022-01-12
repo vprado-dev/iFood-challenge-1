@@ -92,7 +92,7 @@ export const weatherPostOne = endpoint(async (req, res) => {
 
   res.status(200).json({
     cityName: name,
-    temperature: `${celsiusTemp} degrees`,
+    temperature: `${celsiusTemp}`,
     genre: musicGenre,
     tracks: tracksNames,
   });
@@ -123,7 +123,7 @@ export const weatherGetOne = endpoint(async (req, res) => {
 
   res.status(200).json({
     cityName: name,
-    temperature: `${celsiusTemp} degrees`,
+    temperature: `${celsiusTemp}`,
     genre: musicGenre,
     tracks: tracksNames,
   });
